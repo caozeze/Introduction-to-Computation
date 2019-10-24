@@ -4,7 +4,7 @@
 -- Week 6(21-25 Oct.)
 
 import Data.List (nub, delete, sortOn)
-import Data.Sort(uniqueSort, sort)
+--import Data.Sort(uniqueSort, sort)
 import Data.Maybe  (mapMaybe)
 import Control.Monad( liftM, liftM2 )
 import Debug.Trace
@@ -47,10 +47,8 @@ isBloodOrange (Orange "Moro" _) = True
 isBloodOrange (Orange "Sanguinello" _) = True 
 isBloodOrange _ = False 
 
-
 -- 2.
-segments :: Fruit -> Int 
-segments(Orange _ n) = n
+egments(Orange _ n) = n
 segments(Apple _ _) = 0
 
 bloodOrangeSegments :: [Fruit] -> Int
@@ -77,15 +75,13 @@ data Wff a = V a
             | Not (Wff a)
             | Wff a :|: Wff a
             | Wff a :&: Wff a
-            | Wff a :->: Wff a
-            | Wff a :->: Wff a
             deriving (Eq, Ord)
 infixr 3 :&:
 infixr 2 :|:
-infixr 1 :->:
-infixr 0 :<->:
+-- infixr 1 :->:
+-- infixr 0 :<->:
 
-
+ 
 data Atom = A|B|C|D|P|Q|R|S|W|X|Y|Z deriving (Eq, Show, Ord)
 -- we will use these as propositional letters in examples         
 type Env a = [(a, Bool)]
@@ -157,24 +153,22 @@ satisfiable p  =  or [ eval e p | e <- envs (atoms p) ]
 wff1 = (V P :|: V Q) :&: (V P :|: V Q)
 wff2 = (V P :&: (V Q :|: V R )) :&: ((Not (V P) :|: Not (V Q)) :&: (Not (V P) :|: Not (V R)))
 
--- 5.
-tautology wff = and[eval env wff | env <- envs (atoms wff)]
+-- 5. 
+tautology :: Eq a => Wff a -> Bool
+tautology = undefined
 
-prop_taut1 wff = tautology wff || satisfiable (Not wff)
+prop_taut1 :: Wff Atom -> Bool
+prop_taut1 = undefined
 
-prop_taut2 wff = not ( satisfiable wff ) || not (tautology (Not wff))
--- prop_taut1 :: Eq a => Wff a -> Bool
--- prop_taut1 = tautology p || satisfiable (Not p)
+prop_taut2 :: Wff Atom -> Bool
+prop_taut2 = undefined
 
--- prop_taut2 :: Eq a => Wff a -> Bool
--- prop_taut2 = not (satisfiable p) || not (tautology (Not p))
-
--- prop_taut :: Eq a => Wff a -> Bool
--- prop_taut p  = tautology p == not (satisfiable (Not p))
+prop_taut :: Wff Atom -> Bool
+prop_taut p  = undefined
 
 -- 6.
--- wff3 = ((P →Q)∧(P ∧(¬Q)))
--- wff4 = 
+wff3 = undefined
+wff4 = undefined
 
 -- 7.
 equivalent :: Eq a =>  Wff a -> Wff a -> Bool
@@ -192,7 +186,7 @@ wff6 = undefined
 equivalent' :: Eq a => Wff a -> Wff a -> Bool
 equivalent' = undefined
 
-prop_equivalent :: Eq a =>  Wff a -> Wff a -> Bool
+prop_equivalent :: Wff Atom -> Wff Atom -> Bool
 prop_equivalent = undefined
 
 --------------------------------------------------
@@ -215,11 +209,11 @@ toNNF :: Wff a -> Wff a
 toNNF = undefined
 
 -- check if result of toNNF is in neg. normal form
-prop_NNF1 :: Wff a -> Bool
+prop_NNF1 :: Wff Atom -> Bool
 prop_NNF1 f  =  isNNF (toNNF f)
 
 -- check if result of toNNF is equivalent to its input
-prop_NNF2 :: Eq a => Wff a -> Bool
+prop_NNF2 :: Wff Atom -> Bool
 prop_NNF2 f  =  equivalent f (toNNF f)
 
 -- 12.
@@ -247,7 +241,7 @@ toCNF :: Eq a => Wff a -> Wff a
 toCNF wff  =  listsToCNF (toCNFList wff)
 
 -- check if result of toCNF is equivalent to its input
-prop_CNF :: Eq a => Wff a -> Bool
+prop_CNF :: Wff Atom -> Bool
 prop_CNF p  =  equivalent p (toCNF p)
 
 
@@ -268,16 +262,6 @@ showWff e = showsPrec 0 e ""
          (showsPrec 2 a .showSpace .
           showString "|" . showSpace . 
           showsPrec 2 b )
-    showPrec p (a :->: b)
-      = showParen (p>1)
-          (showPrec 1 a .showSpace .
-          showString "->" . showSpace .
-          showPrec 1 b )
-    showPrec p (a :<->: b)
-      = showParen (p > 0)
-          (showParen (p>0)
-          showString "<->" . showSpace .
-          showPrec 0 b )
     showsPrec _ (Not a) = 
       showString "~" . showsPrec 11 a
     showString :: String -> String -> String
@@ -306,16 +290,16 @@ pretty e = showsPrec 0 e ""
          (showsPrec 2 a .showSpace .
           showString "|" . showSpace . 
           showsPrec 2 b )
-    showsPrec p (a :->: b)
-      = showParen (p>1)
-         (showsPrec 1 a .showSpace .
-          showString "->" . showSpace . 
-          showsPrec 2 b )
-    showsPrec p (a :<->: b)
-      = showParen (p>0)
-          (showsPrec 0 a .showSpace .
-           showString "<->" . showSpace . 
-           showsPrec 0 b )
+    -- showsPrec p (a :->: b)
+    --   = showParen (p>1)
+    --      (showsPrec 1 a .showSpace .
+    --       showString "->" . showSpace . 
+    --       showsPrec 2 b )
+    -- showsPrec p (a :<->: b)
+    --   = showParen (p>0)
+    --      (showsPrec 0 a .showSpace .
+    --       showString "<->" . showSpace . 
+    --       showsPrec 0 b )
     showsPrec _ (Not a) = 
       showString "~" . showsPrec 11 a
     showString :: String -> String -> String
@@ -376,5 +360,26 @@ fullTable = tables . filter nontrivial . sortOn (length.atoms) . subformulas
         nontrivial F            = False
         nontrivial _            = True
 
+-- For QuickCheck --------------------------------------------------------
+ 
+instance Show a => Show (Wff a) where
+  show  =  showWff
 
+instance Arbitrary Atom where
+  arbitrary = oneof $ map return [ A, B, C, D, W, X, Y, Z]
 
+instance Arbitrary a => Arbitrary (Wff a) where
+  arbitrary  =  sized wff
+      where
+        wff n | n <= 0     =  liftM V atom
+              | otherwise  =  oneof [ liftM V atom
+                                     , liftM Not subform
+                                     , liftM2 (:|:) subform subform
+                                     , liftM2 (:&:) subform subform
+                                   --  , liftM2 (:->:) subform subform
+                                   --  , liftM2 (:<->:)subform' subform'
+                                     ]
+               where
+                 atom = Test.QuickCheck.arbitrary
+                 subform  =  wff (n `div` 2)
+                 subform' =  wff (n `div` 4)
