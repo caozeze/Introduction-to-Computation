@@ -155,22 +155,24 @@ satisfiable p  =  or [ eval e p | e <- envs (atoms p) ]
 wff1 = (V P :|: V Q) :&: (V P :|: V Q)
 wff2 = (V P :&: (V Q :|: V R )) :&: ((Not (V P) :|: Not (V Q)) :&: (Not (V P) :|: Not (V R)))
 
--- 5. 
-tautology :: Eq a => Wff a -> Bool
-tautology p =  and [eval e p | e <- envs (name p)]
+-- 5.
+tautology wff = and[eval env wff | env <- envs (atoms wff)]
 
-prop_taut1 :: Eq a => Wff a -> Bool
-prop_taut1 = tautology p || satisfiable (Not p)
+prop_taut1 wff = tautology wff || satisfiable (Not wff)
 
-prop_taut2 :: Eq a => Wff a -> Bool
-prop_taut2 = not (satisfiable p) || not (tautology (Not p))
+prop_taut2 wff = not ( satisfiable wff ) || not (tautology (Not wff))
+-- prop_taut1 :: Eq a => Wff a -> Bool
+-- prop_taut1 = tautology p || satisfiable (Not p)
 
-prop_taut :: Eq a => Wff a -> Bool
-prop_taut p  = tautology p == not (satisfiable (Not p))
+-- prop_taut2 :: Eq a => Wff a -> Bool
+-- prop_taut2 = not (satisfiable p) || not (tautology (Not p))
+
+-- prop_taut :: Eq a => Wff a -> Bool
+-- prop_taut p  = tautology p == not (satisfiable (Not p))
 
 -- 6.
-wff3 = undefined
-wff4 = undefined
+wff3 = 
+wff4 = 
 
 -- 7.
 equivalent :: Eq a =>  Wff a -> Wff a -> Bool
@@ -361,3 +363,6 @@ fullTable = tables . filter nontrivial . sortOn (length.atoms) . subformulas
         nontrivial T            = False
         nontrivial F            = False
         nontrivial _            = True
+
+
+
