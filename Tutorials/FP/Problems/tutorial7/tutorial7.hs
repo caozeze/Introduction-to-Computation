@@ -3,7 +3,7 @@
 --
 -- Week 7(29 Oct.- 01 Nov.)
 
-module Tutorial7 where
+-- module Main where
 
 import LSystem
 import Test.QuickCheck
