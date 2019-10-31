@@ -19,12 +19,14 @@ adj x y = (x,y) `elem`
           
 type Colouring = City -> Colour -> Bool
 
+
 eachCityHasAColour :: Colouring -> Bool
 eachCityHasAColour colouring =
   and [ or[colouring city paint | paint <- colours ] | city <- cities ]
 
+  
 adjacentCitiesNotSameColour :: Colouring -> Bool
-adjacentCitiesNotSameColour paint = undefined
+adjacentCitiesNotSameColour paint = and [or  |a <- cities,b <- cities, adj a b, c <- colours]
   
 
 -- the code below allows you to use quickCheck to search for
@@ -277,3 +279,8 @@ main =
          putStrLn (unlines report)
          main
       else return ()
+
+-- 13
+-- every people (\x -> some [y | y <- people ,is Artist y](\y ->some[z | z <- people, isScientist z](\z -> (y `loves` x)&& (x `loves` z ))))
+-- 14
+-- some[x | x <- people, isAtrist x](\x -> and[not( x `loves` y) || not (x `loves` z) | y <- people, z <-people] && or [x `loves` n | n <- people])
