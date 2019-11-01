@@ -56,6 +56,14 @@ prop_split cmd = all f (split cmd)
       f Sit       = False
       f (_ :#: _) = False
       f _         = True
+-- prop_split' :: Command -> Bool
+-- prop_split' cmd = and[ case split x | x <- split cmd]
+--       where case split x = case x of
+--                        Sit -> False
+--                        x:#:_ -> False
+--                      _ -> True
+-- case split Sit = False
+
 
 
 -- 2a. copy
@@ -175,7 +183,11 @@ thirtytwo x = f x :#: n :#: f x :#: n :#: f x :#: n :#: f x
       f x =  p :#: f (x-1) :#: n :#: f (x-1) :#: p :#: f (x-1) :#: p :#: f (x-1) :#: n :#: f (x-1) :#: n :#: f (x-1) :#: f (x-1) :#: p :#: f (x-1) :#: n :#: f (x-1) :#: n :#: f (x-1) :#: f (x-1) :#: n :#: f (x-1) :#: p :#: f (x-1) :#: p :#: f (x-1) :#: f (x-1) :#: n :#: f (x-1) :#: f (x-1) :#: p :#: f (x-1) :#: f (x-1) :#: n :#: f (x-1) :#: n :#: f (x-1) :#: p :#: f (x-1) :#: f (x-1) :#: p :#: f (x-1) :#: p :#: f (x-1) :#: n :#: f (x-1) :#: f (x-1) :#: p :#: f (x-1) :#: p :#: f (x-1) :#: n :#: f (x-1) :#: n :#: f (x-1) :#: p :#: f (x-1) :#: n
       n = Turn 90
       p = Turn (-90)
-
-
+pathExample6 = branch 5
+pathExample5 = snowflake 5 
+pathExample7 = thirtytwo 3
+pathExample8 = cross 5
+pathExample9 = peanoGosper 5
+pathExample10 = hilbert 5
 main :: IO ()
-main = display pathExample4
+main = display pathExample10
