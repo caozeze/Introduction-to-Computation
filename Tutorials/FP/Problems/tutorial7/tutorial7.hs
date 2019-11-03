@@ -104,7 +104,7 @@ optimise :: Command -> Command
 optimise = join' . compress . filter (/=Turn 0) .compress . filter (/=Go 0) . split
   where 
     compress [] = []
-    compress (Turn x : Turn y :xs) = compress (Turn (x +y): xs)
+    compress (Turn x : Turn y :xs) = compress (Turn (x + y): xs)
     compress (Go x : Go y :xs) = compress (Go (x+y) :xs)
     compress (x:xs) = x : compress xs 
 -- L-Systems
