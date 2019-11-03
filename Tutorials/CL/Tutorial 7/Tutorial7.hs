@@ -22,13 +22,14 @@ wff4 = (V A :<->: V B) :&: ((V A :&: Not (V B)) :|: (Not (V A) :&: V B))
 wffToForm :: Ord a => Wff a -> Form a
 wffToForm = canonical.toForm.toCNFList where
   toForm :: [[Wff a]] -> Form a
-  toForm              = undefined
-  toClause            = undefined
-  toLit (Not(V a) )   = undefined
-  toLit (V a)         = undefined
+  toForm  [a :&: b] = And[Clause a, toClause b]
+  toClause [a :|: b] = Or[toLit a, toLit b]      
+  toLit (Not(V a) ) = N a
+  toLit (V a) = P a
   toLit _             = error "expected Literal"
 
-prop_form_equiv wff = undefined
+prop_form_equiv ::  Wff Atom -> Bool 
+prop_form_equiv = undefined 
 
 -- Tseytin transformation which generates conjunctive equisatisfiable form (CEF) 
 tseytinToForm p =
