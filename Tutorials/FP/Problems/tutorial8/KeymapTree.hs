@@ -112,3 +112,5 @@ instance (Ord k, Show k, Show a) => Show (Keymap k a) where
 
 instance (Ord k, Arbitrary k, Arbitrary a) => Arbitrary (Keymap k a) where
     arbitrary = liftM fromList $ liftM2 zip (liftM nub arbitrary) arbitrary
+
+    --
