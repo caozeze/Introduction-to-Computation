@@ -54,7 +54,7 @@ accepts fsm (x : xs) = accepts (step fsm x) xs
 
 charFSM :: Char -> FSM Bool
 charFSM c =
-  mkFSM [False,True] [c] undefined undefined undefined
+  mkFSM [False,True] [c] undefined undefined
 
 stringFSM :: String -> FSM Int
 stringFSM xs =
