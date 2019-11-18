@@ -76,6 +76,6 @@ difference seta setb = [x | x <- [1..], x `elem` seta && x `notElem` setb]
 complement' :: [Int] -> [Int] 
 complement' x = [s | s <- [1..], s `notElem` x] 
 
-
+--------
 
 
